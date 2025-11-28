@@ -1,0 +1,52 @@
+{
+  "name": "Prometheus Task Coordinator - ROS2",
+  "dockerFile": "../Dockerfile",
+  "context": "..",
+  
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-azuretools.vscode-docker",
+        "ms-iot.vscode-ros",
+        "streetsidesoftware.code-spell-checker",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.formatting.provider": "autopep8",
+        "editor.formatOnSave": true,
+        "files.associations": {
+          "*.launch": "xml",
+          "*.launch.py": "python"
+        }
+      }
+    }
+  },
+  
+  "forwardPorts": [5000],
+  "portsAttributes": {
+    "5000": {
+      "label": "Web Dashboard API",
+      "onAutoForward": "notify"
+    }
+  },
+  
+  "postCreateCommand": "cd /workspace/ros2_ws && . /opt/ros/humble/setup.sh && colcon build --symlink-install",
+  
+  "remoteUser": "root",
+  
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace/ros2_ws/src/prometheus_task_coordinator,type=bind,consistency=cached"
+  ],
+  
+  "workspaceFolder": "/workspace/ros2_ws/src/prometheus_task_coordinator",
+  
+  "runArgs": [
+    "--network=host",
+    "--privileged"
+  ]
+}

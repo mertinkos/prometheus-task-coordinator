@@ -1,0 +1,21 @@
+# Prometheus Task Coordinator Parameters
+
+task_coordinator:
+  ros__parameters:
+    # MQTT Configuration
+    mqtt_broker: "localhost"
+    mqtt_port: 1883
+    mqtt_simulate: true
+    
+    # Navigation Configuration
+    nav_success_rate: 0.95  # Probability of successful navigation (0.0-1.0)
+    nav_speed: 1.0          # Linear speed in m/s
+    
+    # Task Processing
+    check_interval: 1.0     # Task check interval in seconds
+
+web_dashboard:
+  ros__parameters:
+    # Web API Configuration
+    api_host: "0.0.0.0"
+    api_port: 5000
