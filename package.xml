@@ -5,10 +5,10 @@
   <version>1.0.0</version>
   <description>Task Coordinator for Prometheus Autonomous Logistics Rover</description>
   
-  <maintainer email="">Mert Turkilli</maintainer>
+  <maintainer email="dev@prometheus.com">Prometheus Team</maintainer>
   <license>MIT</license>
   
-  <author email="">Mert Turkilli</author>
+  <author email="dev@prometheus.com">Prometheus Team</author>
   
   <buildtool_depend>ament_python</buildtool_depend>
   

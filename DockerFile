@@ -1,11 +1,11 @@
-# Prometheus Görev Koordinatörü - Docker Konteyneri
-# Temel imaj: ROS2 Humble
+# Prometheus Task Coordinator - Docker Container
+# Base image: ROS2 Humble
 FROM osrf/ros:humble-desktop
 
-# Çalışma dizinini ayarla
+# Set working directory
 WORKDIR /workspace
 
-# Sistem bağımlılıklarını yükle
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-colcon-common-extensions \
@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Python bağımlılıklarını yükle
+# Install Python dependencies
 RUN pip3 install \
     flask \
     flask-cors \
@@ -25,28 +25,28 @@ RUN pip3 install \
     pytest \
     pytest-cov
 
-# ROS2 çalışma alanını oluştur
+# Create ROS2 workspace
 RUN mkdir -p /workspace/ros2_ws/src
 
-# ROS2 ortamını ayarla
+# Set up ROS2 environment
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
 RUN echo "source /workspace/ros2_ws/install/setup.bash" >> ~/.bashrc
 
-# Paketi çalışma alanına kopyala
+# Copy package to workspace
 COPY . /workspace/ros2_ws/src/prometheus_task_coordinator/
 
-# Çalışma dizinini ROS2 çalışma alanına değiştir
+# Set working directory to ROS2 workspace
 WORKDIR /workspace/ros2_ws
 
-# Paketi derle (build)
+# Build the package
 RUN . /opt/ros/humble/setup.sh && \
     colcon build --symlink-install
 
-# Çalışma alanını kaynak (source) olarak ekle
+# Source the workspace
 RUN echo "source /workspace/ros2_ws/install/setup.bash" >> ~/.bashrc
 
-# Portları dışa aç
+# Expose ports
 EXPOSE 5000
 
-# Varsayılan komut: Ortamı yükle ve başlatma dosyasını (launch file) çalıştır
+# Default command
 CMD ["/bin/bash", "-c", "source /opt/ros/humble/setup.bash && source /workspace/ros2_ws/install/setup.bash && ros2 launch prometheus_task_coordinator task_coordinator.launch.py"]
